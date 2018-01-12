@@ -1252,3 +1252,36 @@ class Feathercoin(Coin):
     PEERS = [
         'electrumx-ch-1.feathercoin.ch s t',
     ]
+
+
+
+
+# RELEASE TODO: check diff
+# https://github.com/litecoin-project/litecoin/compare/master...retosen:master
+
+class Garlicoin(Coin):
+    NAME = "Garlicoin"
+    SHORTNAME = "GRLC"
+    NET = "mainnet"
+    XPUB_VERBYTES = bytes.fromhex("019d9cfe")
+    XPRV_VERBYTES = bytes.fromhex("019da462")
+    P2PKH_VERBYTE = bytes.fromhex("26")
+    P2SH_VERBYTES = [bytes.fromhex("32"), bytes.fromhex("05")]
+    WIF_BYTE = bytes.fromhex("b0")
+    GENESIS_HASH = (''
+                    '')
+    DESERIALIZER = lib_tx.DeserializerSegWit
+    TX_COUNT = 1
+    TX_COUNT_HEIGHT = 1
+    TX_PER_BLOCK = 10
+    RPC_PORT = 9332
+    REORG_LIMIT = 800
+
+class GarlicoinTest(Garlicoin):
+    NET = "testnet"
+
+    # https://github.com/retosen/Garlicoin/blob/master/src/chainparams.cpp#L222
+    XPUB_VERBYTES = bytes.fromhex("043587cf")
+    XPRV_VERBYTES = bytes.fromhex("04358394")
+    P2PKH_VERBYTE = bytes.fromhex("6f")
+    GENESIS_HASH = 'e99da841b29de092a847214f1af5abf6ef38a50f607081b09692177555e5855e'
