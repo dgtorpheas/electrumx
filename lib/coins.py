@@ -1263,13 +1263,13 @@ class Garlicoin(Coin):
     NAME = "Garlicoin"
     SHORTNAME = "GRLC"
     NET = "mainnet"
-    XPUB_VERBYTES = bytes.fromhex("019d9cfe")
-    XPRV_VERBYTES = bytes.fromhex("019da462")
+    XPUB_VERBYTES = bytes.fromhex("0488b21e")
+    XPRV_VERBYTES = bytes.fromhex("0488ade4")
     P2PKH_VERBYTE = bytes.fromhex("26")
     P2SH_VERBYTES = [bytes.fromhex("32"), bytes.fromhex("05")]
     WIF_BYTE = bytes.fromhex("b0")
-    GENESIS_HASH = (''
-                    '')
+    GENESIS_HASH = ('2ada80bf415a89358d697569c96eb98c'
+                    'dbf4c3b8878ac5722c01284492e27228')
     DESERIALIZER = lib_tx.DeserializerSegWit
     TX_COUNT = 1
     TX_COUNT_HEIGHT = 1
