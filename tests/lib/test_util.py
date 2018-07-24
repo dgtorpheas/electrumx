@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from lib import util
+from electrumx.lib import util
 
 
 def test_cachedproperty():
@@ -176,28 +176,34 @@ def test_protocol_tuple():
     assert util.protocol_tuple("0.10") == (0, 10)
     assert util.protocol_tuple("2.5.3") == (2, 5, 3)
 
-def test_protocol_version_string():
-    assert util.protocol_version_string(()) == "0.0"
-    assert util.protocol_version_string((1, )) == "1.0"
-    assert util.protocol_version_string((1, 2)) == "1.2"
-    assert util.protocol_version_string((1, 3, 2)) == "1.3.2"
+def test_version_string():
+    assert util.version_string(()) == "0.0"
+    assert util.version_string((1, )) == "1.0"
+    assert util.version_string((1, 2)) == "1.2"
+    assert util.version_string((1, 3, 2)) == "1.3.2"
 
 def test_protocol_version():
-    assert util.protocol_version(None, "1.0", "1.0") == (1, 0)
-    assert util.protocol_version("0.10", "0.10", "1.1") == (0, 10)
+    assert util.protocol_version(None, (1, 0), (1, 0)) == ((1, 0), (1, 0))
+    assert util.protocol_version("0.10", (0, 1), (1, 1)) == ((0, 10), (0, 10))
 
-    assert util.protocol_version("1.0", "1.0", "1.0") == (1, 0)
-    assert util.protocol_version("1.0", "1.0", "1.1") == (1, 0)
-    assert util.protocol_version("1.1", "1.0", "1.1") == (1, 1)
-    assert util.protocol_version("1.2", "1.0", "1.1") is None
-    assert util.protocol_version("0.9", "1.0", "1.1") is None
+    assert util.protocol_version("1.0", (1, 0), (1, 0)) == ((1, 0), (1, 0))
+    assert util.protocol_version("1.0", (1, 0), (1, 1)) == ((1, 0), (1, 0))
+    assert util.protocol_version("1.1", (1, 0), (1, 1)) == ((1, 1), (1, 1))
+    assert util.protocol_version("1.2", (1, 0), (1, 1)) == (None, (1, 2))
+    assert util.protocol_version("0.9", (1, 0), (1, 1)) == (None, (0, 9))
 
-    assert util.protocol_version(["0.9", "1.0"], "1.0", "1.1") == (1, 0)
-    assert util.protocol_version(["0.9", "1.1"], "1.0", "1.1") == (1, 1)
-    assert util.protocol_version(["1.1", "0.9"], "1.0", "1.1") is None
-    assert util.protocol_version(["0.8", "0.9"], "1.0", "1.1") is None
-    assert util.protocol_version(["1.1", "1.2"], "1.0", "1.1") == (1, 1)
-    assert util.protocol_version(["1.2", "1.3"], "1.0", "1.1") is None
+    assert util.protocol_version(["0.9", "1.0"], (1, 0), (1, 1)) \
+                                                         == ((1, 0), (0, 9))
+    assert util.protocol_version(["0.9", "1.1"], (1, 0), (1, 1)) \
+                                                         == ((1, 1), (0,9))
+    assert util.protocol_version(["1.1", "0.9"], (1, 0), (1, 1)) \
+                                                         == (None, (1, 1))
+    assert util.protocol_version(["0.8", "0.9"], (1, 0), (1, 1)) \
+                                                         == (None, (0, 8))
+    assert util.protocol_version(["1.1", "1.2"], (1, 0), (1, 1)) \
+                                                         == ((1, 1), (1, 1))
+    assert util.protocol_version(["1.2", "1.3"], (1, 0), (1, 1)) \
+                                                         == (None, (1, 2))
 
 
 def test_unpackers():
