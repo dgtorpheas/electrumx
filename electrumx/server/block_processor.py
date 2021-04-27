@@ -264,7 +264,10 @@ class BlockProcessor(electrumx.server.db.DB):
         start, hashes = await self.reorg_hashes(count)
         # Reverse and convert to hex strings.
         hashes = [hash_to_hex_str(hash) for hash in reversed(hashes)]
-        last = start + count - 1
+        if isinstance(count, int):
+            last = start + count - 1
+        else:
+            last = start
         for hex_hashes in chunks(hashes, 50):
             raw_blocks = await get_raw_blocks(last, hex_hashes)
             async with self.state_lock:
